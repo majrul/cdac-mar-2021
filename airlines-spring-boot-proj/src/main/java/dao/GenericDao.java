@@ -18,6 +18,10 @@ public class GenericDao {
 		entityManager.persist(obj);
 	}
 
+	public Object store(Object obj) {
+		return entityManager.merge(obj);
+	}
+
 	public <E> E fetch(Class<E> clazz, Object pk) {
 		E e = entityManager.find(clazz, pk);
 		return e;

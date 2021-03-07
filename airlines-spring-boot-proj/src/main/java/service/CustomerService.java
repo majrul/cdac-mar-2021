@@ -19,9 +19,10 @@ public class CustomerService {
 	@Autowired
 	private GenericDao genericDao;
 	
-	public void register(Customer customer) {
-		genericDao.save(customer);
+	public int register(Customer customer) {
+		Customer updatedCustomer = (Customer) genericDao.store(customer);
 		//send an email - that code can be fired from here
+		return updatedCustomer.getCustomerNo();
 	}
 	
 	public void bookFlight(BookingData bookingData) {

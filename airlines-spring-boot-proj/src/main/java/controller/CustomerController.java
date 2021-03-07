@@ -1,17 +1,23 @@
 package controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import dto.LoginData;
 import dto.LoginStatus;
 import dto.RegisterStatus;
+import dto.SearchData;
 import dto.Status.StatusType;
 import exception.CustomerServiceException;
 import model.Customer;
+import model.Flight;
 import service.CustomerService;
 
 @RestController
@@ -60,5 +66,15 @@ public class CustomerController {
 			status.setMessage(e.getMessage());
 			return status;
 		}
+	}
+	
+	@GetMapping("/profile")
+	public Customer profile(@RequestParam("customerNo") int customerNo) {
+		return customerService.get(customerNo);
+	}
+	
+	@PostMapping("/search")
+	public List<Flight> search(@RequestBody SearchData searchData) {
+		return customerService.search(searchData);
 	}
 }

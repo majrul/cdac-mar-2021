@@ -1,6 +1,12 @@
 package dao;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
+
+import dto.SearchData;
+import model.Flight;
 
 @Repository
 public class CustomerDao extends GenericDao {
@@ -20,5 +26,18 @@ public class CustomerDao extends GenericDao {
 				.setParameter("email", email)
 				.setParameter("password", password)
 				.getSingleResult();
+	}
+
+	public List<Flight> fetch(SearchData searchData) {
+		String q = "select f from Flight f join fetch f.schedules s"
+					+ " where f.source = :source and f.destination = :destination"
+					+ " and s.scheduleDate = :date and s.availableSeats >= :passengers";
+		return entityManager
+				.createQuery(q, Flight.class)
+				.setParameter("source", searchData.getFrom())
+				.setParameter("destination", searchData.getTo())
+				.setParameter("date", searchData.getDepartureDate())
+				.setParameter("passengers", searchData.getNoOfPassengers())
+				.getResultList();
 	}
 }

@@ -20,6 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * The persistent class for the Schedule database table.
@@ -57,6 +59,7 @@ public class Schedule implements Serializable {
 	//bi-directional many-to-one association to Flight
 	@ManyToOne
 	@JoinColumn(name="flight_no")
+	@JsonIgnore
 	private Flight flight;
 
 	//bi-directional many-to-one association to Seat

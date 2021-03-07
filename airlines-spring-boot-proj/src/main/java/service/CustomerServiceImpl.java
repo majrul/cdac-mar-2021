@@ -1,6 +1,7 @@
 package service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import dao.CustomerDao;
 import dto.BookingData;
 import dto.LoginData;
+import dto.SearchData;
 import exception.CustomerServiceException;
 import model.Booking;
 import model.Customer;
+import model.Flight;
 import model.Schedule;
 
 @Service
@@ -52,6 +55,16 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 	
 	@Override
+	public Customer get(int customerNo) {
+		return customerDao.fetch(Customer.class, customerNo);
+	}
+	
+	@Override
+	public List<Flight> search(SearchData searchData) {
+		return customerDao.fetch(searchData);
+	}
+
+	@Override
 	public void bookFlight(BookingData bookingData) {
 		Customer customer = customerDao.fetch(Customer.class, bookingData.getCustomerNo());
 		Schedule schedule = customerDao.fetch(Schedule.class, bookingData.getScheduleNo());
@@ -67,4 +80,5 @@ public class CustomerServiceImpl implements CustomerService {
 		booking.setPassengers(bookingData.getPassengers());
 		
 	}
+
 }
